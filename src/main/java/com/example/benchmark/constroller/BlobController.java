@@ -35,7 +35,7 @@ public class BlobController {
     public String uploadFileV1(MultipartFile file, @PathVariable String entityName) throws IOException {
         myBlobService.storeFile(entityName + "/" + file.getOriginalFilename(), file.getInputStream(), file.getSize());
         benchMarkService.invokeEngine(entityName);
-        return "File uploaded, wait for sometime to see the report";
+        return "File uploaded, Bench mark engine invoked, wait for sometime to see the report";
     }
     @PostMapping("/esg/benchmark/fetch/v1/{entityName}")
     public BenchMarkData fetchByEntityNameV1(MultipartFile file, @PathVariable String entityName) throws IOException {
@@ -43,7 +43,7 @@ public class BlobController {
     }
 
     @PostMapping("/esg/benchmark/upload/{entityName}/{esgType}/{esgIndicator}")
-    public BenchMarkDetails fetchByIndicators(MultipartFile file, @PathVariable String entityName, @PathVariable String esgType, @PathVariable String esgIndicator) throws IOException {
+    public BenchMarkDetails uploadByTypeAndIndicator(MultipartFile file, @PathVariable String entityName, @PathVariable String esgType, @PathVariable String esgIndicator) throws IOException {
         myBlobService.storeFile(entityName + "/" + file.getOriginalFilename(), file.getInputStream(), file.getSize());
         return benchMarkService.findByEventNameEsgAndInd(entityName, esgType, esgIndicator);
     }
