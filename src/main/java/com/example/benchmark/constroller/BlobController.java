@@ -26,14 +26,14 @@ public class BlobController {
     }
 
     @PostMapping("/esg/benchmark/upload/{entityName}")
-    public BenchMarkData uploadFile(MultipartFile file, @PathVariable String entityName) throws IOException {
-        myBlobService.storeFile(entityName + "/" + file.getOriginalFilename(), file.getInputStream(), file.getSize());
+    public BenchMarkData uploadFile(MultipartFile file, @PathVariable String entityName) throws Exception {
+        myBlobService.storeFile(file.getOriginalFilename(), file.getInputStream(), file.getSize(),entityName);
         return benchMarkService.fetchData(entityName);
     }
 
     @PostMapping("/esg/benchmark/upload/v1/{entityName}")
-    public String uploadFileV1(MultipartFile file, @PathVariable String entityName) throws IOException {
-        myBlobService.storeFile(entityName + "/" + file.getOriginalFilename(), file.getInputStream(), file.getSize());
+    public String uploadFileV1(MultipartFile file, @PathVariable String entityName) throws Exception {
+        myBlobService.storeFile(file.getOriginalFilename(), file.getInputStream(), file.getSize(),entityName);
         benchMarkService.invokeEngine(entityName);
         return "File uploaded, Bench mark engine invoked, wait for sometime to see the report";
     }
@@ -43,8 +43,8 @@ public class BlobController {
     }
 
     @PostMapping("/esg/benchmark/upload/{entityName}/{esgType}/{esgIndicator}")
-    public BenchMarkDetails uploadByTypeAndIndicator(MultipartFile file, @PathVariable String entityName, @PathVariable String esgType, @PathVariable String esgIndicator) throws IOException {
-        myBlobService.storeFile(entityName + "/" + file.getOriginalFilename(), file.getInputStream(), file.getSize());
+    public BenchMarkDetails uploadByTypeAndIndicator(MultipartFile file, @PathVariable String entityName, @PathVariable String esgType, @PathVariable String esgIndicator) throws Exception {
+        myBlobService.storeFile(file.getOriginalFilename(), file.getInputStream(), file.getSize(),entityName);
         return benchMarkService.findByEventNameEsgAndInd(entityName, esgType, esgIndicator);
     }
 }

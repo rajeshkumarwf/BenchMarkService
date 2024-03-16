@@ -10,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -48,8 +50,11 @@ public class MyBlobService {
         return os;
     }
 
-    public String storeFile(String filename, InputStream content, long length) {
-        BlobClient client = containerClient().getBlobClient(filename);
+    public String storeFile(String filename, InputStream content, long length,String entityName) throws Exception {
+        if(!StringUtils.hasLength(filename)){
+            throw new Exception("file is null/empty");
+        }
+        BlobClient client = containerClient().getBlobClient(entityName + "/" + filename);
 
         if (client.exists()) {
             System.out.println("exist");
