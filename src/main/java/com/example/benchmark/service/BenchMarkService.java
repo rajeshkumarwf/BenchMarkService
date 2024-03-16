@@ -33,4 +33,7 @@ public class BenchMarkService {
         return benchMarkDetails;
     }
 
+    public void invokeEngine(String entityName) {
+        //Async API call
+    }
 }
