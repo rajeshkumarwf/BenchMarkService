@@ -4,6 +4,7 @@ import com.example.benchmark.entity.BenchMarkData;
 import com.example.benchmark.entity.BenchMarkDetails;
 import com.example.benchmark.repository.ESGDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,6 +25,9 @@ public class BenchMarkService {
     @Autowired
     Environment env;
 
+    @Value("${contextUrl}")
+    private String contextUrl;
+
     public BenchMarkData fetchData(String entityName) {
         return esgDetailsRepository.findByEntityName(entityName);
     }
@@ -42,7 +46,7 @@ public class BenchMarkService {
 
     public void invokeEngine(String entityName) {
         //Async API call
-        webClient.get().uri(env.getProperty("engine.benchmark.url") + entityName).retrieve().
+        webClient.get().uri(contextUrl + entityName).retrieve().
                 onStatus(httpStatus -> httpStatus.value() != 200,
                         error -> Mono.error(new Exception("error Body"))).
                 bodyToMono(BenchMarkData.class)

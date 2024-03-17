@@ -1,6 +1,7 @@
 package com.example.benchmark;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +16,12 @@ public class BenchMarkServiceApplication {
 	@Autowired
 	Environment env;
 
+	@Value("${baseUrl}")
+	private String baseUrl;
+
 	@Bean
 	public WebClient webClient() {
-		return WebClient.builder().baseUrl(env.getProperty("engine.base.url")).build();
+		return WebClient.builder().baseUrl(baseUrl).build();
 	}
 
 	public static void main(String[] args) {

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "test-esg-collection-suresh")
+@Document(collection = "entity-esg-details")
 public class BenchMarkData {
 
     @Id
