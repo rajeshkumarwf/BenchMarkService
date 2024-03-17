@@ -1,4 +1,4 @@
-package com.example.benchmark.constroller;
+package com.example.benchmark.controller;
 
 import com.example.benchmark.entity.BenchMarkData;
 import com.example.benchmark.entity.BenchMarkDetails;
@@ -26,18 +26,12 @@ public class BlobController {
     }
 
     @PostMapping("/esg/benchmark/upload/{entityName}")
-    public BenchMarkData uploadFile(MultipartFile file, @PathVariable String entityName) throws Exception {
-        myBlobService.storeFile(file.getOriginalFilename(), file.getInputStream(), file.getSize(),entityName);
-        return benchMarkService.fetchData(entityName);
-    }
-
-    @PostMapping("/esg/benchmark/upload/v1/{entityName}")
     public BenchMarkData uploadFileV1(MultipartFile file, @PathVariable String entityName) throws Exception {
         myBlobService.storeFile(file.getOriginalFilename(), file.getInputStream(), file.getSize(),entityName);
         benchMarkService.invokeEngine(entityName);
         return benchMarkService.fetchData(entityName);
     }
-    @PostMapping("/esg/benchmark/fetch/v1/{entityName}")
+    @PostMapping("/esg/benchmark/fetch/{entityName}")
     public BenchMarkData fetchByEntityNameV1(MultipartFile file, @PathVariable String entityName) throws IOException {
         return benchMarkService.fetchData(entityName);
     }
