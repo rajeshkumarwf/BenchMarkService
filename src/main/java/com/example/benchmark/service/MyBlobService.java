@@ -1,5 +1,6 @@
 package com.example.benchmark.service;
 
+import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
@@ -55,12 +56,12 @@ public class MyBlobService {
             throw new Exception("file is null/empty");
         }
         BlobClient client = containerClient().getBlobClient(entityName + "/" + filename);
-
-        if (client.exists()) {
+        client.upload(BinaryData.fromStream(content), true);
+        /*if (client.exists()) {
             System.out.println("exist");
         } else {
             client.upload(content, length);
-        }
+        }*/
 
         return "File uploaded with success!";
     }
