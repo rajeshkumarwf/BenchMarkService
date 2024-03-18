@@ -27,7 +27,7 @@ public class BlobController {
 
     @PostMapping("/esg/benchmark/upload/{entityName}")
     public BenchMarkData uploadFileV1(MultipartFile file, @PathVariable String entityName) throws Exception {
-        myBlobService.storeFile(entityName, file.getInputStream(), file.getSize(),entityName);
+        myBlobService.storeFile(entityName+".pdf", file.getInputStream(), file.getSize(),entityName);
         benchMarkService.invokeEngine(entityName);
         return benchMarkService.fetchData(entityName);
     }
@@ -38,7 +38,7 @@ public class BlobController {
 
     @PostMapping("/esg/benchmark/upload/{entityName}/{esgType}/{esgIndicator}")
     public BenchMarkDetails uploadByTypeAndIndicator(MultipartFile file, @PathVariable String entityName, @PathVariable String esgType, @PathVariable String esgIndicator) throws Exception {
-        myBlobService.storeFile(entityName, file.getInputStream(), file.getSize(),entityName);
+        myBlobService.storeFile(entityName+".pdf", file.getInputStream(), file.getSize(),entityName);
         benchMarkService.invokeEngine(entityName);
         return benchMarkService.findByEventNameEsgAndInd(entityName, esgType, esgIndicator);
     }
